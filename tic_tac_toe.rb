@@ -14,11 +14,7 @@ class Board
 
   def row_checker(mark)
     @current_board.each do |row|
-      matches = 0
-      row.each do |element|
-        matches += 1 if element == mark
-        return true if matches == 3
-      end
+      return true if row.all? { |element| element == mark }
     end
     false
   end
