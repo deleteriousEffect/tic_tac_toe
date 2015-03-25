@@ -19,8 +19,22 @@ class Board
     false
   end
 
+  def diagonal_checker(mark)
+    element =  0
+    diag = []
+    anti_diag = []
+
+    @current_board.each do |row|
+      diag << row[element]
+      element += 1
+      anti_diag << row[-element]
+    end
+    return true if diag.all? { |e| e == mark } || anti_diag.all? { |e| e == mark }
+    false
+  end
+
   def victory?(player)
-    if row_checker(player.mark)
+    if row_checker(player.mark) || diagonal_checker(player.mark)
       puts "#{player.name} is the winner!"
       true
     else
