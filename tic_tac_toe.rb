@@ -16,6 +16,13 @@ class Board
     false
   end
 
+  def tie?
+    if @current_board.flatten.none? { |e| e == '_' }
+      puts "It's a tie! Everyone is a loser!"
+      true
+    end
+  end
+
   def start_round
     puts 'Welcome to Tic Tac Toe!'
 
@@ -37,7 +44,7 @@ class Board
   def start_turn
     loop do
       print_board
-      break if victory?
+      break if victory? || tie?
       if @number_of_turns.even?
         @player1.place_mark
       else
