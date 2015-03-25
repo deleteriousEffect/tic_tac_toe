@@ -1,3 +1,10 @@
+# This is simple command line tic tac toe game for two players.
+# Players enter their names and keep track of their scores.
+# After each game, players scores are displayed and players may choose to 
+# continue playing or exit the program.
+# 
+#
+# Manages turns and checks for victory.
 class Board
   attr_accessor :current_board, :number_of_turns
 
@@ -6,12 +13,14 @@ class Board
     @number_of_turns = 0
   end
 
+  # Displays the current board.
   def print_board
     @current_board.each do |a|
       print a.join(' '), "\n"
     end
   end
 
+  # Checks if there are three matching marks on a row.
   def row_checker(mark)
     @current_board.each do |row|
       return true if row.all? { |element| element == mark }
@@ -19,6 +28,7 @@ class Board
     false
   end
 
+  # Checks if there are three matching marks on a collumn.
   def collumn_checker(mark)
     i = 0
 
@@ -33,6 +43,7 @@ class Board
     false
   end
 
+  # Checks if there are three matching marks on a diagonal.
   def diagonal_checker(mark)
     element =  0
     diag = []
@@ -47,6 +58,8 @@ class Board
     false
   end
 
+  # Checks to see if a victory condition has been met and increase victor's score
+  # and displays win message.
   def victory?(player)
     if row_checker(player.mark) ||
        diagonal_checker(player.mark) ||
@@ -61,6 +74,7 @@ class Board
     end
   end
 
+  # Determines if there is a tie.
   def tie?
     if @current_board.flatten.none? { |e| e == '_' }
       puts "It's a tie! Everyone is a loser!"
@@ -68,6 +82,7 @@ class Board
     end
   end
 
+  # Begins a game and instantiates players.
   def start_round
     puts 'Welcome to Tic Tac Toe!'
 
@@ -82,14 +97,17 @@ class Board
     start_turn
   end
 
+  # Changes a mark on the board to a new mark.
   def set_board(collumn, row, mark)
     @current_board[collumn][row] = mark
   end
 
+  # Reset board to starting condition.
   def clear_board
     @current_board = [%w(_ _ _), %w(_ _ _), %w(_ _ _)]
   end
 
+  # Starts a new turn if players wish to continue.
   def continue?
     puts "Do you wish do continue?\n1:Yes, 2: No"
     answer = gets.chomp
@@ -103,6 +121,7 @@ class Board
     end
   end
 
+  # Displays board and manages player turns.
   def start_turn
     loop do
       print_board
@@ -118,6 +137,8 @@ class Board
     continue?
   end
 
+  # Keeps track of user names and scores,
+  # allows users to place marks on the board.
   class Player
     attr_accessor :name, :score, :mark, :board
 
@@ -128,16 +149,19 @@ class Board
       @board = board
     end
 
+    # Allows user to pick a row to place thier mark on.
     def ask_for_row
       puts "#{@name}, what row do you wish to place your mark on? \n1, 2, or 3?"
       row = gets.chomp.to_i - 1
     end
 
+    # Allows user to pick a collumn to place thier mark on.
     def ask_for_collumn
       puts "What collumn do you wish to place your mark on? \n1, 2, or 3?"
       collumn = gets.chomp.to_i - 1
     end
 
+    # Changes selected space on board to the player's mark.
     def place_mark(row, collumn)
       if valid_move?(row, collumn)
         @board.set_board(row, collumn, @mark)
@@ -146,6 +170,7 @@ class Board
       end
     end
 
+    # Checks if user has selected a previously marked spot on the board.
     def valid_move?(row, collumn)
       if @board.current_board[row][collumn] == '_'
         true
@@ -154,6 +179,7 @@ class Board
       end
     end
 
+    # Increases player's score by one point.
     def score_increase
       @score += 1
     end
