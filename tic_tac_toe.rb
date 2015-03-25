@@ -1,6 +1,6 @@
 class Board
   attr_accessor :current_bord
- 
+
   def initialize
     @current_bord = [%w(_ _ _), %w(_ _ _), %w(_ _ _)]
   end
@@ -22,7 +22,10 @@ class Board
 
     puts 'Who is our second player?'
     player2 = Player.new(gets.chomp)
-    print_board
+
+    puts "#{player1.name}, #{player2.name}. Are you ready!?"
+
+    start_turn
   end
 
   def start_turn
@@ -31,7 +34,8 @@ class Board
   class Player
     attr_accessor :name, :score
 
-    def initialize
+    def initialize(name)
+      @name = name
       @score = 0
     end
 
