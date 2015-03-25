@@ -46,9 +46,9 @@ class Board
       print_board
       break if victory? || tie?
       if @number_of_turns.even?
-        @player1.place_mark
+        @player1.place_mark(@player1.ask_for_row, @player1.ask_for_collumn)
       else
-        @player2.place_mark
+        @player2.place_mark(@player2.ask_for_row, @player2.ask_for_collumn)
       end
       @number_of_turns += 1
     end
@@ -64,18 +64,30 @@ class Board
       @board = board
     end
 
-    def place_mark
+    def ask_for_row
       puts "#{@name}, what row do you wish to place your mark on? \n1, 2, or 3?"
       row = gets.chomp.to_i - 1
-
-      puts "What collumn do you wish to place your mark on? \n1, 2, or 3?"
-      collumn = gets.chomp.to_i - 1
-
-      @board.set_board(row, collumn, @mark)
     end
 
-    def valid_move?
-      true
+    def ask_for_collumn
+      puts "What collumn do you wish to place your mark on? \n1, 2, or 3?"
+      collumn = gets.chomp.to_i - 1
+    end
+
+    def place_mark(row, collumn)
+      if valid_move?(row, collumn)
+        @board.set_board(row, collumn, @mark)
+      else
+        place_mark(ask_for_row, ask_for_collumn)
+      end
+    end
+
+    def valid_move?(row, collumn)
+      if @board.current_board[row][collumn] == '_'
+        true
+      else
+        puts "You can't mark over another mark! Try a black space..."
+      end
     end
 
     def score
