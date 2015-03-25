@@ -12,8 +12,24 @@ class Board
     end
   end
 
-  def victory?
+  def row_checker(mark)
+    @current_board.each do |row|
+      matches = 0
+      row.each do |element|
+        matches += 1 if element == mark
+        return true if matches == 3
+      end
+    end
     false
+  end
+
+  def victory?(player)
+    if row_checker(player.mark)
+      puts "#{player.name} is the winner!"
+      true
+    else
+      false
+    end
   end
 
   def tie?
@@ -44,11 +60,12 @@ class Board
   def start_turn
     loop do
       print_board
-      break if victory? || tie?
       if @number_of_turns.even?
         @player1.place_mark(@player1.ask_for_row, @player1.ask_for_collumn)
+        break if victory?(@player1) || tie?
       else
         @player2.place_mark(@player2.ask_for_row, @player2.ask_for_collumn)
+        break if victory?(@player2) || tie?
       end
       @number_of_turns += 1
     end
