@@ -48,8 +48,13 @@ class Board
   end
 
   def victory?(player)
-    if row_checker(player.mark) || diagonal_checker(player.mark) || collumn_checker(player.mark)
-      puts "#{player.name} is the winner!"
+    if row_checker(player.mark) ||
+       diagonal_checker(player.mark) ||
+       collumn_checker(player.mark)
+
+      player.score_increase
+
+      puts "#{player.name}(#{player.get_score} wins) is the winner!"
       true
     else
       false
@@ -81,6 +86,23 @@ class Board
     @current_board[collumn][row] = mark
   end
 
+  def clear_board
+    @current_board = [%w(_ _ _), %w(_ _ _), %w(_ _ _)]
+  end
+
+  def continue?
+    puts "Do you wish do continue?\n1:Yes, 2: No"
+    answer = gets.chomp
+
+    if answer == '1'
+      clear_board
+      start_turn
+    else
+      puts 'Thanks for playing!'
+      exit
+    end
+  end
+
   def start_turn
     loop do
       print_board
@@ -93,6 +115,7 @@ class Board
       end
       @number_of_turns += 1
     end
+    continue?
   end
 
   class Player
@@ -131,7 +154,12 @@ class Board
       end
     end
 
-    def score
+    def score_increase
+      @score += 1
+    end
+
+    def get_score
+      @score
     end
   end
 end
