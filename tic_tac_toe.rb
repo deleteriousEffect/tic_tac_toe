@@ -19,6 +19,20 @@ class Board
     false
   end
 
+  def collumn_checker(mark)
+    i = 0
+
+    while i < @current_board.length
+      matches = []
+      @current_board.each do |row|
+        matches << row[i]
+      end
+      return true if matches.all? { |element| element == mark }
+      i += 1
+    end
+    false
+  end
+
   def diagonal_checker(mark)
     element =  0
     diag = []
@@ -34,7 +48,7 @@ class Board
   end
 
   def victory?(player)
-    if row_checker(player.mark) || diagonal_checker(player.mark)
+    if row_checker(player.mark) || diagonal_checker(player.mark) || collumn_checker(player.mark)
       puts "#{player.name} is the winner!"
       true
     else
