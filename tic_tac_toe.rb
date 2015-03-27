@@ -1,8 +1,8 @@
 # This is simple command line tic tac toe game for two players.
 # Players enter their names and keep track of their scores.
-# After each game, players scores are displayed and players may choose to 
+# After each game, players scores are displayed and players may choose to
 # continue playing or exit the program.
-# 
+#
 #
 # Manages turns and checks for victory.
 class Board
@@ -58,8 +58,8 @@ class Board
     false
   end
 
-  # Checks to see if a victory condition has been met and increase victor's score
-  # and displays win message.
+  # Checks to see if a victory condition has been met and
+  # increase victor's score and displays win message.
   def victory?(player)
     if row_checker(player.mark) ||
        diagonal_checker(player.mark) ||
